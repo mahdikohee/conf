@@ -1,6 +1,22 @@
-command to generate shell code according to bash or shell scripting language ....
+0x1 command to generate shell code according to bash or shell scripting language ....
 1.linux ==>>> msfvenom -p linux/x64/exec CMD=ls -f c          //can be used for c language 
 2.windows ==>  msfvenom -p windows/exec CMD=cmd.exe /c dir -f c
 
 
 
+0x2 rust binary compressing command 
+
+command -1 
+
+rustc -C opt-level=z \
+      -C panic=abort \
+      -C lto \
+      -C codegen-units=1 \
+      -C strip=symbols \
+      main.rs -o main
+
+
+
+command 2 
+strip --strip-all main
+upx --best --ultra-brute --no-reloc --overlay=strip --all-methods main
