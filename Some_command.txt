@@ -20,3 +20,12 @@ rustc -C opt-level=z \
 command 2 
 strip --strip-all main
 upx --best --ultra-brute --no-reloc --overlay=strip --all-methods main
+
+
+
+
+
+
+//see your real ip address 
+command =>  curl ifconfig.me
+
