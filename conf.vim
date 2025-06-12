@@ -67,3 +67,106 @@ inoremap <C-v> <C-r>+
 nnoremap <S-Insert> "+p
 inoremap <S-Insert> <C-r>+
 vnoremap <S-Insert> "+p
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+another glassy vim conf for more beautiful look 
+
+
+
+
+-----------------
+
+
+
+" -------------------------------------
+" 1. প্লাগইন ম্যানেজার vim-plug সেটআপ
+" -------------------------------------
+call plug#begin('~/.vim/plugged')
+
+" dracula থিম প্লাগইন
+Plug 'dracula/vim', { 'as': 'dracula' }
+
+" অটো ক্লোজ ব্র্যাকেট প্লাগইন
+Plug 'jiangmiao/auto-pairs'
+
+call plug#end()
+
+" -------------------------------------
+" 2. বেসিক সেটিংস
+" -------------------------------------
+syntax enable
+set number
+set relativenumber
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set smartindent
+set clipboard=unnamedplus
+set cursorline
+set termguicolors
+
+" -------------------------------------
+" 3. থিম সেটআপ
+" -------------------------------------
+colorscheme dracula
+
+" -------------------------------------
+" 4. আরও কিছু হ্যাকিং এর জন্য হেল্পফুল অপশন
+" -------------------------------------
+set wildmenu
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+set mouse=a
+
+" -------------------------------------
+" 5. সহজ কমান্ডের জন্য কিবাইন্ড (ঐচ্ছিক)
+" -------------------------------------
+nnoremap <leader>t :!gnome-terminal &<CR>
+
+" -------------------------------------
+" 6. Leader কী ডিফাইন (ঐচ্ছিক)
+" -------------------------------------
+let mapleader="\<Space>"
+
+" -------------------------------------
+" 7. ফাইল কন্ডিশনাল এবং অটো কমান্ড (ঐচ্ছিক)
+" -------------------------------------
+autocmd BufWritePre * :%s/\s\+$//e
