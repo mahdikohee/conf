@@ -1,0 +1,84 @@
+-- Ctrl+t চাপলে split এ টার্মিনাল খুলবে
+vim.api.nvim_set_keymap('n', '<C-t>', ':split | terminal<CR>', { noremap = true, silent = true })
+
+-- টার্মিনাল মোড থেকে Normal মোডে ফেরার শর্টকাট Ctrl+t
+vim.api.nvim_set_keymap('t', '<C-t>', [[<C-\><C-n>]], { noremap = true, silent = true })
+
+
+-- init.lua (upgraded for pro indentation & monokai theme)
+
+-- ১. lazy.nvim প্লাগিন ম্যানেজার ইনস্টলেশন
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable",
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+-- ২. প্লাগিনগুলো লোড করো
+require("lazy").setup({
+  -- Monokai থিম
+  {
+    "tanvirtin/monokai.nvim",
+    config = function()
+      require("monokai").setup({
+        palette = require("monokai").pro_palette,
+      })
+      vim.cmd("colorscheme monokai")
+    end,
+  },
+
+  -- অটো ক্লোজ ব্র্যাকেট/কোটস
+  {
+    "windwp/nvim-autopairs",
+    config = function()
+      require("nvim-autopairs").setup{}
+    end,
+  },
+
+  -- স্মার্ট ইন্ডেন্টেশন এবং সিনট্যাক্স হাইলাইটিং
+  {
+    "nvim-treesitter/nvim-treesitter",
+    run = ":TSUpdate",
+    config = function()
+      require("nvim-treesitter.configs").setup {
+        highlight = { enable = true },
+        indent = { enable = true },
+      }
+    end,
+  },
+
+  -- প্লেনারি লাইব্রেরি (অন্যান্য প্লাগিনের জন্য ডিপেন্ডেন্সি)
+  "nvim-lua/plenary.nvim",
+})
+
+-- ৩. বেসিক ও উন্নত সেটিংস
+
+vim.o.number = true                  -- লাইন নম্বর দেখাও
+vim.o.relativenumber = true          -- রিলেটিভ নম্বর
+vim.o.termguicolors = true           -- ২৪-বিট কালার সাপোর্ট
+vim.o.expandtab = true               -- ট্যাবের বদলে স্পেস
+vim.o.shiftwidth = 4                 -- indent এ ৪ স্পেস
+vim.o.tabstop = 4                   -- ট্যাব প্রেসে ৪ স্পেস
+vim.o.softtabstop = 4               -- insert মোডে ৪ স্পেস
+vim.o.smartindent = true             -- স্মার্ট ইন্ডেন্টেশন
+vim.o.autoindent = true              -- আগের লাইনের indent কপি করবে
+vim.o.smarttab = true                -- স্মার্ট ট্যাব
+vim.o.cindent = true                 -- C স্টাইল ইন্ডেন্টেশন
+
+-- ৪. ফাইল টাইপ অনুযায়ী ভিন্ন ভিন্ন indentation (ঐচ্ছিক)
+vim.cmd([[
+  autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
+  autocmd FileType lua setlocal expandtab shiftwidth=2 softtabstop=2
+  autocmd FileType html,css,javascript setlocal expandtab shiftwidth=2 softtabstop=2
+]])
+
+-- ৫. কী মেপিং (ঐচ্ছিক)
+-- Insert mode এ Ctrl+Space প্রেস করলে কমপ্লিশন ট্রিগার করার জন্য (যদি 'cmp' প্লাগিন যোগ করো পরে)
+vim.api.nvim_set_keymap("i", "<C-Space>", 'v:lua.require"cmp".complete()', { noremap = true, silent = true })
